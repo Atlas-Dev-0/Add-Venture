@@ -1,0 +1,45 @@
+
+
+.box-number {
+box-shadow: -10px +10px;
+height: 250px;
+
+}
+
+.box-answer {
+border: solid 10px #ffff;
+height: 160px;
+width: 160px;
+background-color: #39b54a;
+
+  transition: transform 0.2s ease-in-out; /* Smooth transition */
+}
+
+.box-answer:hover {
+  transform: scale(1.2); /* Scale the button to 1.2 times its original size */
+
+}
+
+.big  {
+font-size: 120px;
+}
+
+@font-face {
+  font-family: 'Charming Smile';
+  src: url('./Charming Smile DEMO.otf') format('opentype');
+}
+
+body {
+  min-height: 100vh;
+  background-image: url('./background.jpg');
+  background-size: cover;
+  background-position: center;
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family: 'Charming Smile';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
