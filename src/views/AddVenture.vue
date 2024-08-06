@@ -22,7 +22,6 @@
     <source src="../assets/sfx/fail.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
-
   <!-- ----- -->
 
   <div id="game" class="container ">
@@ -65,6 +64,8 @@
     <StartModal :visible="showModal" :StartGame="StartGame" />
     <WrongModal :visible="showWrongMessage" />
     <RightModal :visible="showRightMessage" />
+    <WinnerModal :visible="showWinnerMessage" :StartGame="StartGame" />
+
   </div>
 
 </template>
@@ -75,12 +76,14 @@ import { Game } from './GameMechs.ts';
 import StartModal from '../components/dialog.vue';
 import WrongModal from '../components/wrongModal.vue';
 import RightModal from '../components/RightModal.vue';
+import WinnerModal from '../components/WinnerModal.vue';
 
 export default defineComponent({
   components: {
     StartModal,
     WrongModal,
     RightModal,
+    WinnerModal,
   },
   setup() {
 
@@ -137,6 +140,7 @@ export default defineComponent({
     const showModal = ref(true);
     const showWrongMessage = ref(false);
     const showRightMessage = ref(false);
+    const showWinnerMessage = ref(false);
 
     const game = new Game();
 
@@ -177,23 +181,21 @@ export default defineComponent({
       console.log("after array", places_available);
       return y;
     }
-
-
     function CheckCorrectAns(ans: number): boolean {
+
       let right_ans = game.GetRightAnswer();
       console.log("Correct Answer: ", right_ans);
       console.log("Guessed Answer: ", ans);
       let reply: boolean;
+
       if (ans === right_ans) {
         score.value++;
         playClickedSound();
         playWinSound();
-
         showRightMessage.value = true;
         setTimeout(() => {
           showRightMessage.value = false;
         }, 1000);
-
         console.log("yey");
         console.log("score: ", score.value);
         message = "CONGRATULATIONS!!";
@@ -209,6 +211,10 @@ export default defineComponent({
         console.log("boo");
         message = "ooops!!";
         reply = true;
+      }
+      if (score.value >= 10) {
+        showWinnerMessage.value = true;
+        score.value = 0;
       }
       return reply;
     }
@@ -227,9 +233,8 @@ export default defineComponent({
       MainFx();
       GenerateProblem();
       showModal.value = false;
+      showWinnerMessage.value = false;
     }
-
-
 
     return {
       clickSound,
@@ -241,6 +246,7 @@ export default defineComponent({
       showModal,
       StartGame,
       showWrongMessage,
+      showWinnerMessage,
       showRightMessage,
       GenerateProblem,
       CheckCorrectAns,
