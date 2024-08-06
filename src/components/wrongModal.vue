@@ -7,11 +7,11 @@
       <h2 class="text-white text-[120px] mb-4">OOOOPS!</h2>
     </div>
   </div>
-
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
+import type { PropType } from 'vue';
 
 export default defineComponent({
   props: {

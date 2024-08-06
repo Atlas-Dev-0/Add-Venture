@@ -71,8 +71,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onMounted } from 'vue';
-import { Game } from './GameMechs.ts';
+import { defineComponent, ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { Game } from './GameMechs';
 import StartModal from '../components/dialog.vue';
 import WrongModal from '../components/wrongModal.vue';
 import RightModal from '../components/RightModal.vue';
@@ -91,7 +92,7 @@ export default defineComponent({
     function MainFx() {
       if (audioPlayer.value) {
         audioPlayer.value.volume = 1;
-        audioPlayer.value.play().catch((error) => {
+        audioPlayer.value?.play().catch((error) => {
           console.log("Audio Play Error", error);
         });
       }
@@ -103,7 +104,7 @@ export default defineComponent({
 
     function playWinSound() {
       if (winSound.value) {
-        winSound.value.play().catch(error => {
+        winSound.value?.play().catch(error => {
           console.log('Win sound play error:', error);
         });
       }
@@ -111,7 +112,7 @@ export default defineComponent({
 
     function playClickedSound() {
       if (clickSound.value) {
-        winSound.value.play().catch(error => {
+        winSound.value?.play().catch(error => {
           console.log('Win sound play error:', error);
         });
       }
@@ -120,7 +121,7 @@ export default defineComponent({
     function playHoverSound() {
       if (hoverSound.value) {
         hoverSound.value.volume = 0.8;
-        hoverSound.value.play().catch(error => {
+        hoverSound.value?.play().catch(error => {
           console.error('Hover sound play error:', error);
         });
       }
@@ -128,12 +129,12 @@ export default defineComponent({
 
     function playFailSound() {
       if (failSound.value) {
-        audioPlayer.value.pause();
+        audioPlayer.value?.pause();
         failSound.value.volume = 0.8;
-        failSound.value.play().catch(error => {
+        failSound.value?.play().catch(error => {
           console.error('Hover sound play error:', error);
         });
-        audioPlayer.value.play();
+        audioPlayer.value?.play();
       }
     }
 
@@ -152,7 +153,7 @@ export default defineComponent({
     var answer_2 = ref();
     var answer_3 = ref();
     var message = ref();
-    var score: number = ref(0);
+    var score = ref(0);
 
     function getAnswer(): number {
       let placement = getPlacement();
@@ -165,6 +166,7 @@ export default defineComponent({
         } while (randAns === game.GetRightAnswer());
         return randAns;
       }
+      return 0;
     }
 
     function getPlacement(): number {
@@ -198,7 +200,7 @@ export default defineComponent({
         }, 1000);
         console.log("yey");
         console.log("score: ", score.value);
-        message = "CONGRATULATIONS!!";
+        message.value = "CONGRATULATIONS!!";
         reply = true;
         StartGame();
       } else {
@@ -209,7 +211,7 @@ export default defineComponent({
           showWrongMessage.value = false;
         }, 1000);
         console.log("boo");
-        message = "ooops!!";
+        message.value = "ooops!!";
         reply = true;
       }
       if (score.value >= 10) {
